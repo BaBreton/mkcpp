@@ -1,21 +1,15 @@
 #ifndef _MKCPP_HPP_
-# define _MKCPP_HPP_
+#define _MKCPP_HPP_
 
-# include <iostream>
+#include <iostream>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 #include <string>
+#include <cstring>
 
 using namespace std;
 
-// class Config {
-// 	public:
-// 		Config();
-// 		~Config();
-	
-// 	private:
-// 		string	_input;
-
-// };
+# include "Config.hpp"
 
 #endif
