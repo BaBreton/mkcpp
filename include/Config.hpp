@@ -8,9 +8,11 @@ class Config {
 	private:
 		std::string		_header;
 		vector<string>	_includes;
+        char            **_env;
 	
 	public:
-		Config();
+        Config();
+		Config(char **env);
 		~Config();
 
 		// Setup functions
@@ -23,11 +25,16 @@ class Config {
 		void	navigationMenu();
 		void	displayMenu() const;
 		void	centerText(std::string const text);
+        void	credits();
 		
-
+        // Random functions
 		void	includes(bool customIncludes);
-		bool	yesNo() const;
-		void	version() const;
+		int 	yesNo();
+        void	programExit();
+
+        // Menu functions
+        void	displayConfigFile();
+        void	choseModule();
 };
 
 #endif

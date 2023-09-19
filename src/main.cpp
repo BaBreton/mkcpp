@@ -7,8 +7,10 @@
 #include "../include/mkcpp.hpp"
 
 int	main(int argc, char **argv, char **env) {
-	Config 	test;
+	Config 	test(env);
 	
+    (void)argc;
+    (void)argv;
 	test.start();
 	return (0);
 }
