@@ -48,36 +48,43 @@ void	Config::includes(bool customIncludes) {
 */
 
 void	Config::navigationMenu() {
-	string			pick;
-	unsigned int	npick;
+	string		inputUser;
 
-	here :
+	restart :
 		(HEADER(), NL());
 		(centerText("Welcome in your fancy CPP sources file creator"), NL());
 		(centerText("-- Please select one --"), NL());
 		displayMenu();
 	
 	cout << endl << "Your choice: ";
-	while (true)
-	{
-		getline(cin, pick);
-		bool isDigit = true;
-		for (char c : pick) {
-			if (!isdigit(c)) {
-				isDigit = false;
-				break;
-			}
-		}
-		if (!isDigit) {
-			system("clear");
-			goto here;
-		}
-		npick = stoul(pick);
-		if (npick < 1 || npick > 6) {
-			system("clear");
-			goto here; }
+	getline(cin, inputUser);
+	if (inputUser.length() < 1)
+		(system("clear"), goto here);
+
+	int option = stoul(inputUser);
+
+	switch (option) {
+		case 1:
+			std::cout << "You chose option 1" << std::endl;
+			break;
+		case 2:
+			makeConfigFile();
+			break;
+		case 3:
+			displayConfigFile();
+			break;
+		case 4:
+			choseModule();
+			break;
+		case 5:
+			credits();
+			break;
+		case 6:
+			programExit();
+			break;
+		default:
+			(system("clear"), goto restart);
 	}
-	cout << "sortie" << endl;
 }
 
 void	Config::makeConfigFile() {

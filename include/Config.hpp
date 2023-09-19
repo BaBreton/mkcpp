@@ -27,6 +27,7 @@ class Config {
 
 		void	includes(bool customIncludes);
 		bool	yesNo() const;
+		void	version() const;
 };
 
 #endif
