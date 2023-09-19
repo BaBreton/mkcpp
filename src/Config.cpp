@@ -2,29 +2,64 @@
 
 #include "../include/mkcpp.hpp"
 
-Config::Config() {
-
-	system("clear");
-	ifstream("./.assets/.stateFile") ? this->speak() : this->firstConfig();
-}
-
+/*
+	** Constructors and destructors
+*/
+Config::Config() { initHeader(); }
 Config::~Config() {};
 
-void	Config::speak() {
+
+/*
+	** Setup functions
+*/
+void Config::start() {
+	if (this->_header.empty())
+		this->_header = "/*\n\t* Project name : mkCPP\n\t* Contibutors : BaBreton, cparras\n\t* Creation date : 19/09/2023\n*/";
+	system("clear");
+	ifstream("./assets/stateFile") ? speak() : firstConfig();
+}
+
+void	Config::initHeader() {
+	ifstream	input(".maybeHeader.txt");
+	string line;
+
+	if (input)
+		(cerr << "Error opening file." << endl, return);
+	
+	while (getline(input, line))
+		_header += "\t" + line + "\n";
+	
+	input.close();
+}
+
+void	Config::includes(bool customIncludes) {
+	_includes.push_back("<iostream>\n");
+	_includes.push_back("<string>\n");
+
+	if (!customIncludes)
+		return;
+	cout << "Please type your includes, one by one, and type END when you're done" << endl;
+	while (getline(cin, s) && s != "END")
+		_includes.push_back("<" + s + ">" + '\n');
+}
+
+/*
+	** Random functions
+*/
+
+void	Config::navigationMenu() {
 	string			pick;
 	unsigned int	npick;
 
-here :
-	this->putHeader();
-	cout << endl;
-	this->centerText("Welcome in your fancy CPP sources file creator");
-	cout << endl;
-	this->centerText("-- Please select one --");
-	cout << endl;
-	this->menu();
+	here :
+		(HEADER(), NL());
+		(centerText("Welcome in your fancy CPP sources file creator"), NL());
+		(centerText("-- Please select one --"), NL());
+		displayMenu();
+	
+	cout << endl << "Your choice: ";
 	while (true)
 	{
-		cout << endl << "Your choice: ";
 		getline(cin, pick);
 		bool isDigit = true;
 		for (char c : pick) {
@@ -41,124 +76,56 @@ here :
 		if (npick < 1 || npick > 6) {
 			system("clear");
 			goto here; }
-		else
-			// switch(pick)
-			// {
-			// case 1:
-			// 	/* code */
-			// 	break;
-			
-			// default:
-				break;
-			// }
 	}
 	cout << "sortie" << endl;
 }
 
-void	Config::centerText(string const text) {
-    int totalWidth = 80;
-    int textWidth = text.length();
-
-    if (textWidth >= totalWidth) {
-        std::cout << text << std::endl;
-    } else {
-        int padding = (totalWidth - textWidth) / 2;
-        std::cout << std::string(padding, ' ') << text << std::endl;
-    }
-}
-
-void	Config::menu() const {
-	cout << "\t\033[1;32m/ 1 /\033[0m Start with your current config" << endl;
-	cout << "\t\033[1;32m/ 2 /\033[0m Change config" << endl;
-	cout << "\t\033[1;32m/ 3 /\033[0m Check config" << endl;
-	cout << "\t\033[1;32m/ 4 /\033[0m Create files for 42 CPP modules" << endl;
-	cout << "\t\033[1;33m/ 5 /\033[0m Credits" << endl;
-	cout << "\t\033[1;31m/ 6 /\033[0m Exit" << endl;
-}
-
-void	Config::putHeader() {
-	ifstream	input("./.assets/maybeHeader.txt");
-
-	if (input) {
-		string line;
-		while (getline(input, line)) {
-			cout << "\t" + line << endl;
-		}
-		input.close();
-	}
-	else {
-		cout << "Error opening file." << endl;
-		perror("open");
-	}
-}
-
-string	Config::includes(string s) {
-	string	inc;
-	string	input;
-	string	tmp;
-
-	inc = "<iostream>\n<string>";
-	if (!strcmp("Y", s.c_str())) {
-	while (1)
-	{
-		getline(cin, input);
-		if (!strcmp("END", input.c_str()))
-			break ; 
-		tmp = tmp + '<' + input + '>' + '\n';
-	}
-	}
-	return tmp + inc;
-}
-
-void	Config::stateFile() {
+void	Config::makeConfigFile() {
 	string		input;
-	ofstream	file("./.assets/.stateFile");
+	ofstream	file("./assets/stateFile");
 	string		tmp;
 
 	system("clear");
-	this->putHeader();
+	HEADER();
 	cout << "Please type your login: ";
 	getline(cin, input);
 	file << input << endl;
 	system("clear");
-	this->putHeader();
+	HEADER();
 	cout << "Please type your email: ";
 	getline(cin, input);
 	file << input << endl;
 	system("clear");
-	this->putHeader();
+	HEADER();
 	cout << "Do you want personilized includes [Y/N] ?" << endl << "Default includes are <iostream> and <string> ";
 	getline(cin, input);
-	file << this->includes(input);
+	file << this->includes();
 	system("clear");
-	this->putHeader();
+	HEADER();
 	cout << "Do you want your class in canonical form ? [Y/N] ";
 	getline(cin, input); /*Enjection + fonction*/
 	system("clear");
-	this->putHeader();
+	HEADER();
 }
 
-void	Config::firstConfig() {
+void	Config::firstConfig()
+{
 	string response;
 
-here:
-	this->putHeader();
-	this->centerText("Welcome in your fancy CPP sources file creator");
-	this->centerText("This helper will automatically create file tree for your projects");
-	this->centerText("Would you like to continue? [Y/N]");
-	while (true) {
-		getline(cin, response);
-		std::transform(response.begin(), response.end(), response.begin(), ::toupper);
-		if (response == "Y" || response == "N")
-			break;
-		else {
-			system("clear");
-			goto here;
-		}
-	}
-	if (response == "Y") {
-		this->stateFile();
-	} else {
-		exit(1);
-	}
+	start:
+		system("clear");
+		HEADER();
+		this->centerText("Welcome in your fancy CPP sources file creator");
+		this->centerText("This helper will automatically create file tree for your projects");
+		this->centerText("Would you like to continue? [Y/N]");
+		
+	// parse response
+	getline(cin, response);
+	if (response.length() < 1)
+		goto start;
+	response = toupper(response[0]);
+
+	if (response != "Y")
+		(cout << "Goodbye!" << endl, exit(1));
+	makeConfigFile();
 }
