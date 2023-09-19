@@ -6,10 +6,10 @@ OBJ = $(patsubst ./src/%.cpp, $(OBJ_DIR)/%.o, $(SRC))
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	c++ -Wall -Wextra -Werror -std=c++98 $(OBJ) -o $(NAME)
+	c++ -Wall -Wextra -Werror -std=c++17 $(OBJ) -o $(NAME)
 
 $(OBJ_DIR)/%.o: ./src/%.cpp | $(OBJ_DIR)
-	c++ -Wall -Wextra -Werror -std=c++98 -c $< -o $@
+	c++ -Wall -Wextra -Werror -std=c++17 -c $< -o $@
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
