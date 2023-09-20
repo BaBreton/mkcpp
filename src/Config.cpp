@@ -37,13 +37,16 @@ void	Config::includes(bool customIncludes) {
 	_includes.push_back("<string>\n");
 
 	if (!customIncludes)
-		return;
+		return ;
 
 	cout << "Please type your includes, one by one, and type \033[1;31mEND\033[0m when you're done" << endl;
-	
+
 	string userLibrary;
-	while (getline(cin, userLibrary) && userLibrary != "END" && userLibrary.length() >= 2)
+	while (getline(cin, userLibrary) && userLibrary != "END") {
 		_includes.push_back("<" + userLibrary + ">" + '\n');
+		displayPersonalIncludesMenu();
+	}
+	return ;
 }
 
 /*
@@ -76,7 +79,7 @@ void	Config::navigationMenu() {
 			break;
 		case 3:
 			displayConfigFile();
-			break;
+			goto restart;
 		case 4:
 			choseModule();
 			break;
@@ -103,7 +106,7 @@ void	Config::firstConfig()
 		this->centerText("Would you like to continue? [Y/N]");
 	
 	// get the user response
-	int yesOrNo = this->yesNo();
+	int yesOrNo = this->yesNo(1);
 
 	if (yesOrNo == -1) // is not yes or no
 		goto start;
@@ -114,10 +117,27 @@ void	Config::firstConfig()
 	makeConfigFile(); // is yes
 }
 
-int Config::yesNo() {
+int Config::yesNo(int statut) {
 	std::string response;
-
+here :
 	getline(cin, response);
+	if (response.length() >= 2 || (toupper(response[0]) != 'Y' && toupper(response[0]) != 'N'))
+	{
+		switch (statut)
+		{
+		case 1:
+			return -1;
+		case 2:
+			displayInvalidIncludeInput();
+			goto here;
+		case 3:
+			displayInvalidCanonInput();
+			goto here;
+		default:
+			break;
+		}
+		goto here;
+	}
 	if (response.length() < 1 && toupper(response[0]) != 'Y' && toupper(response[0]) != 'N')
 		return -1;
 	response = toupper(response[0]);

@@ -4,6 +4,9 @@
 #define NL(void) cout << endl
 #define HEADER() cout << this->_header << endl
 
+#define BS "\033[1m"
+#define BE "\033[0m"
+
 class Config {
 	private:
 		std::string		_header;
@@ -23,17 +26,20 @@ class Config {
 
 		// Display functions
 		void	navigationMenu();
+		void	displayPersonalIncludesMenu() const;
+		void	displayInvalidIncludeInput() const;
+		void	displayInvalidCanonInput() const;
 		void	displayMenu() const;
 		void	centerText(std::string const text);
+        void	displayConfigFile();
         void	credits();
 		
         // Random functions
 		void	includes(bool customIncludes);
-		int 	yesNo();
+		int 	yesNo(int statut);
         void	programExit();
 
         // Menu functions
-        void	displayConfigFile();
         void	choseModule();
 };
 
