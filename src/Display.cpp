@@ -68,6 +68,52 @@ void	Config::displayConfigFile() {
     cin.get();
 }
 
+void	Config::displayModuleMenu() const {
+	
+	system("clear");
+	HEADER();
+	
+	cout << "Please select one of the following modules:" << endl;
+	NL();
+
+    // line 1
+    cout << "\t\033[1;32m / 0 / \033[0m";
+    cout << "CPP Module 00";
+
+    cout << "\t\033[1;32m / 5 / \033[0m";
+    cout << "CPP Module 05" << endl;
+
+    // line 2
+    cout << "\t\033[1;32m / 1 / \033[0m";
+    cout << "CPP Module 01";
+
+    cout << "\t\033[1;32m / 6 / \033[0m";
+    cout << "CPP Module 06" << endl;
+
+    // line 3
+    cout << "\t\033[1;32m / 2 / \033[0m";
+    cout << "CPP Module 02";
+
+    cout << "\t\033[1;32m / 7 / \033[0m";
+    cout << "CPP Module 07" << endl;
+
+    // line 4
+    cout << "\t\033[1;32m / 3 / \033[0m";
+    cout << "CPP Module 03";
+
+    cout << "\t\033[1;32m / 8 / \033[0m";
+    cout << "CPP Module 08" << endl;
+
+    // line 5
+    cout << "\t\033[1;32m / 4 / \033[0m";
+    cout << "CPP Module 04";
+
+    cout << "\t\033[1;32m / 9 / \033[0m";
+    cout << "CPP Module 09" << endl;
+
+	cout << endl << "Your choice: ";
+}
+
 void    Config::credits() {
     system("clear");
     HEADER();

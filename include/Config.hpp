@@ -22,13 +22,12 @@ class Config {
 		void	start();
 		void	initHeader();
 		void	firstConfig();
-		void	makeConfigFile();
 
 		// Display functions
-		void	navigationMenu();
 		void	displayPersonalIncludesMenu() const;
 		void	displayInvalidIncludeInput() const;
 		void	displayInvalidCanonInput() const;
+		void	displayModuleMenu() const;
 		void	displayMenu() const;
 		void	centerText(std::string const text);
         void	displayConfigFile();
@@ -40,7 +39,9 @@ class Config {
         void	programExit();
 
         // Menu functions
-        void	choseModule();
+        void	navigationMenu();
+        void    moduleMenu();
+        void    makeConfigFile();
 };
 
 #endif

@@ -81,7 +81,7 @@ void	Config::navigationMenu() {
 			displayConfigFile();
 			goto restart;
 		case 4:
-			choseModule();
+			moduleMenu();
 			break;
 		case 5:
 			credits();
@@ -112,29 +112,29 @@ void	Config::firstConfig()
 		goto start;
 
 	else if (yesOrNo == 0) // is no
-		programExit();
+		navigationMenu();
 
 	makeConfigFile(); // is yes
 }
 
 int Config::yesNo(int statut) {
 	std::string response;
-here :
-	getline(cin, response);
+
+	here :
+		getline(cin, response);
 	if (response.length() >= 2 || (toupper(response[0]) != 'Y' && toupper(response[0]) != 'N'))
 	{
-		switch (statut)
-		{
-		case 1:
-			return -1;
-		case 2:
-			displayInvalidIncludeInput();
-			goto here;
-		case 3:
-			displayInvalidCanonInput();
-			goto here;
-		default:
-			break;
+		switch (statut) {
+			case 1:
+				return -1;
+			case 2:
+				displayInvalidIncludeInput();
+				goto here;
+			case 3:
+				displayInvalidCanonInput();
+				goto here;
+			default:
+				break;
 		}
 		goto here;
 	}
