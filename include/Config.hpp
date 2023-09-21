@@ -37,6 +37,7 @@ class Config {
 		void	includes(bool customIncludes);
 		int 	yesNo(int statut);
         void	programExit();
+		bool	getInput(istream & flow, string & input);
 
         // Menu functions
         void	navigationMenu();

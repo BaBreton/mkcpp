@@ -16,7 +16,7 @@ void Config::start() {
 	if (this->_header.empty())
 		this->_header = "/*\n\t* Project name : mkCPP\n\t* Contibutors : BaBreton, cparras\n\t* Creation date : 19/09/2023\n*/";
 	system("clear");
-	ifstream("./assets/stateFile") ? navigationMenu() : firstConfig();
+	ifstream("./.assets/stateFile") ? navigationMenu() : firstConfig();
 }
 
 void	Config::initHeader() {
@@ -64,7 +64,7 @@ void	Config::navigationMenu() {
 		displayMenu();
 	
 	cout << endl << "Your choice: ";
-	getline(cin, inputUser);
+	this->getInput(cin, inputUser);
 	if (inputUser.length() < 1)
 		goto restart;
 
@@ -121,7 +121,7 @@ int Config::yesNo(int statut) {
 	std::string response;
 
 	here :
-		getline(cin, response);
+		this->getInput(cin, response);
 	if (response.length() >= 2 || (toupper(response[0]) != 'Y' && toupper(response[0]) != 'N'))
 	{
 		switch (statut) {
@@ -143,6 +143,14 @@ int Config::yesNo(int statut) {
 	response = toupper(response[0]);
 
 	return response == "Y" ? 1 : 0;
+}
+
+bool	Config::getInput(istream & flow, string & input) {
+	getline(flow, input);
+	if (flow.eof())
+		exit(1);
+	else
+		return true;
 }
 
 void	Config::programExit()

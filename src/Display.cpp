@@ -39,14 +39,14 @@ void	Config::displayMenu() const {
 }
 
 void	Config::displayConfigFile() {
-    ifstream	file("./assets/stateFile");
+    ifstream	file("./.assets/stateFile");
     string		line;
 
     system("clear");
     HEADER();
     NL();
     centerText("-- Your current configuration --");
-    while (getline(file, line)) {
+    while (this->getInput(file, line)) {
         if (!strncmp("lo-:", line.c_str(), 3))
             cout << BS << "Login: " << BE << line.substr(3) << endl;
         if (!strncmp("ml-:", line.c_str(), 3))
@@ -56,7 +56,7 @@ void	Config::displayConfigFile() {
             cout << BS << "Includes:" << BE << endl;
             while (!strncmp("##-:", line.c_str(), 3)) {
                 cout << "\t" << line.substr(3) << endl;
-                getline(file, line);
+                this->getInput(file, line);
             }
         }
         if (!strncmp("ca-:", line.c_str(), 3))
@@ -120,8 +120,9 @@ void    Config::credits() {
     cout << endl;
     centerText("This program was made by");
     centerText("Baptiste BRETON");
-    centerText("and");
     centerText("Cyril PARRAS");
+    centerText("and");
+	centerText("Robin MAURELL");
     NL();
     centerText("Thanks for using it !");
     NL();

@@ -2,14 +2,14 @@
 
 void	Config::makeConfigFile() {
 	string		input;
-	ofstream	file("./assets/stateFile");
+	ofstream	file("./.assets/stateFile");
 	string		allInput;
 
 	login :
 		system("clear");
 		HEADER();
 		cout << "Please type your login: ";
-		getline(cin, input);
+		this->getInput(cin, input);
 		if (input.empty())
 			goto login;
 		allInput += "lo-" + input + "\n";
@@ -18,7 +18,7 @@ void	Config::makeConfigFile() {
 		system("clear");
 		HEADER();
 		cout << "Please type your email: ";
-		getline(cin, input);
+		this->getInput(cin, input);
 		if (input.empty())
 			goto mail;
 		allInput += "ml-" + input + "\n";
@@ -51,7 +51,7 @@ void Config::moduleMenu() {
 	displayModuleMenu();
 
 	string input;
-	getline(cin, input);
+	this->getInput(cin, input);
 	if (input.length() < 1)
 		moduleMenu();
 
