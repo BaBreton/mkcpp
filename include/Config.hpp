@@ -1,22 +1,47 @@
 #ifndef CONFIG_HPP
 #define CONFIG_HPP
 
-#define NL cout << 
+#define NL(void) cout << endl
+#define HEADER() cout << this->_header << endl
+
+#define BS "\033[1m"
+#define BE "\033[0m"
 
 class Config {
+	private:
+		std::string		_header;
+		vector<string>	_includes;
+        char            **_env;
+	
 	public:
-		Config();
+        Config();
+		Config(char **env);
 		~Config();
 
+		// Setup functions
+		void	start();
+		void	initHeader();
 		void	firstConfig();
-		void	putHeader();
-		void	speak();
-		void	menu() const;
-		void	centerText(string const text);
-		void	stateFile();
-		string	includes(string s);
-		bool	yesNo() const;
-	private:
+
+		// Display functions
+		void	displayPersonalIncludesMenu() const;
+		void	displayInvalidIncludeInput() const;
+		void	displayInvalidCanonInput() const;
+		void	displayModuleMenu() const;
+		void	displayMenu() const;
+		void	centerText(std::string const text);
+        void	displayConfigFile();
+        void	credits();
+		
+        // Random functions
+		void	includes(bool customIncludes);
+		int 	yesNo(int statut);
+        void	programExit();
+
+        // Menu functions
+        void	navigationMenu();
+        void    moduleMenu();
+        void    makeConfigFile();
 };
 
 #endif

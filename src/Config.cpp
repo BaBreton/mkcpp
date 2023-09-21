@@ -2,163 +2,155 @@
 
 #include "../include/mkcpp.hpp"
 
-Config::Config() {
-
-	system("clear");
-	ifstream("./.assets/.stateFile") ? this->speak() : this->firstConfig();
-}
-
+/*
+	** Constructors and destructors
+*/
+Config::Config(char **env) : _env(env) { initHeader(); }
 Config::~Config() {};
 
-void	Config::speak() {
-	string			pick;
-	unsigned int	npick;
 
-here :
-	this->putHeader();
-	cout << endl;
-	this->centerText("Welcome in your fancy CPP sources file creator");
-	cout << endl;
-	this->centerText("-- Please select one --");
-	cout << endl;
-	this->menu();
-	while (true)
-	{
-		cout << endl << "Your choice: ";
-		getline(cin, pick);
-		bool isDigit = true;
-		for (char c : pick) {
-			if (!isdigit(c)) {
-				isDigit = false;
-				break;
-			}
-		}
-		if (!isDigit) {
-			system("clear");
-			goto here;
-		}
-		npick = stoul(pick);
-		if (npick < 1 || npick > 6) {
-			system("clear");
-			goto here; }
-		else
-			// switch(pick)
-			// {
-			// case 1:
-			// 	/* code */
-			// 	break;
-			
-			// default:
-				break;
-			// }
-	}
-	cout << "sortie" << endl;
-}
-
-void	Config::centerText(string const text) {
-    int totalWidth = 80;
-    int textWidth = text.length();
-
-    if (textWidth >= totalWidth) {
-        std::cout << text << std::endl;
-    } else {
-        int padding = (totalWidth - textWidth) / 2;
-        std::cout << std::string(padding, ' ') << text << std::endl;
-    }
-}
-
-void	Config::menu() const {
-	cout << "\t\033[1;32m/ 1 /\033[0m Start with your current config" << endl;
-	cout << "\t\033[1;32m/ 2 /\033[0m Change config" << endl;
-	cout << "\t\033[1;32m/ 3 /\033[0m Check config" << endl;
-	cout << "\t\033[1;32m/ 4 /\033[0m Create files for 42 CPP modules" << endl;
-	cout << "\t\033[1;33m/ 5 /\033[0m Credits" << endl;
-	cout << "\t\033[1;31m/ 6 /\033[0m Exit" << endl;
-}
-
-void	Config::putHeader() {
-	ifstream	input("./.assets/maybeHeader.txt");
-
-	if (input) {
-		string line;
-		while (getline(input, line)) {
-			cout << "\t" + line << endl;
-		}
-		input.close();
-	}
-	else {
-		cout << "Error opening file." << endl;
-		perror("open");
-	}
-}
-
-string	Config::includes(string s) {
-	string	inc;
-	string	input;
-	string	tmp;
-
-	inc = "<iostream>\n<string>";
-	if (!strcmp("Y", s.c_str())) {
-	while (1)
-	{
-		getline(cin, input);
-		if (!strcmp("END", input.c_str()))
-			break ; 
-		tmp = tmp + '<' + input + '>' + '\n';
-	}
-	}
-	return tmp + inc;
-}
-
-void	Config::stateFile() {
-	string		input;
-	ofstream	file("./.assets/.stateFile");
-	string		tmp;
-
+/*
+	** Setup functions
+*/
+void Config::start() {
+	if (this->_header.empty())
+		this->_header = "/*\n\t* Project name : mkCPP\n\t* Contibutors : BaBreton, cparras\n\t* Creation date : 19/09/2023\n*/";
 	system("clear");
-	this->putHeader();
-	cout << "Please type your login: ";
-	getline(cin, input);
-	file << input << endl;
-	system("clear");
-	this->putHeader();
-	cout << "Please type your email: ";
-	getline(cin, input);
-	file << input << endl;
-	system("clear");
-	this->putHeader();
-	cout << "Do you want personilized includes [Y/N] ?" << endl << "Default includes are <iostream> and <string> ";
-	getline(cin, input);
-	file << this->includes(input);
-	system("clear");
-	this->putHeader();
-	cout << "Do you want your class in canonical form ? [Y/N] ";
-	getline(cin, input); /*Enjection + fonction*/
-	system("clear");
-	this->putHeader();
+	ifstream("./assets/stateFile") ? navigationMenu() : firstConfig();
 }
 
-void	Config::firstConfig() {
+void	Config::initHeader() {
+	ifstream	input("maybeHeader.txt");
+	string line;
+
+	if (!input)
+		return;
+	
+	while (getline(input, line))
+		_header += "\t" + line + "\n";
+	
+	input.close();
+}
+
+void	Config::includes(bool customIncludes) {
+	_includes.push_back("<iostream>\n");
+	_includes.push_back("<string>\n");
+
+	if (!customIncludes)
+		return ;
+
+	cout << "Please type your includes, one by one, and type \033[1;31mEND\033[0m when you're done" << endl;
+
+	string userLibrary;
+	while (getline(cin, userLibrary) && userLibrary != "END") {
+		_includes.push_back("<" + userLibrary + ">" + '\n');
+		displayPersonalIncludesMenu();
+	}
+	return ;
+}
+
+/*
+	** Random functions
+*/
+
+void	Config::navigationMenu() {
+	string		inputUser;
+
+	restart :
+		system("clear");
+		(HEADER(), NL());
+		(centerText("Welcome in your fancy CPP sources file creator"), NL());
+		(centerText("-- Please select one --"), NL());
+		displayMenu();
+	
+	cout << endl << "Your choice: ";
+	getline(cin, inputUser);
+	if (inputUser.length() < 1)
+		goto restart;
+
+	int option = stoul(inputUser);
+
+	switch (option) {
+		case 1:
+			std::cout << "You chose option 1" << std::endl;
+			break;
+		case 2:
+			makeConfigFile();
+			break;
+		case 3:
+			displayConfigFile();
+			goto restart;
+		case 4:
+			moduleMenu();
+			break;
+		case 5:
+			credits();
+			goto restart;
+		case 6:
+			programExit();
+			break;
+		default:
+			goto restart;
+	}
+}
+
+void	Config::firstConfig()
+{
 	string response;
 
-here:
-	this->putHeader();
-	this->centerText("Welcome in your fancy CPP sources file creator");
-	this->centerText("This helper will automatically create file tree for your projects");
-	this->centerText("Would you like to continue? [Y/N]");
-	while (true) {
+	start :
+		system("clear");
+		HEADER();
+		this->centerText("Welcome in your fancy CPP sources file creator");
+		this->centerText("This helper will automatically create file tree for your projects");
+		this->centerText("Would you like to continue? [Y/N]");
+	
+	// get the user response
+	int yesOrNo = this->yesNo(1);
+
+	if (yesOrNo == -1) // is not yes or no
+		goto start;
+
+	else if (yesOrNo == 0) // is no
+		navigationMenu();
+
+	makeConfigFile(); // is yes
+}
+
+int Config::yesNo(int statut) {
+	std::string response;
+
+	here :
 		getline(cin, response);
-		std::transform(response.begin(), response.end(), response.begin(), ::toupper);
-		if (response == "Y" || response == "N")
-			break;
-		else {
-			system("clear");
-			goto here;
+	if (response.length() >= 2 || (toupper(response[0]) != 'Y' && toupper(response[0]) != 'N'))
+	{
+		switch (statut) {
+			case 1:
+				return -1;
+			case 2:
+				displayInvalidIncludeInput();
+				goto here;
+			case 3:
+				displayInvalidCanonInput();
+				goto here;
+			default:
+				break;
 		}
+		goto here;
 	}
-	if (response == "Y") {
-		this->stateFile();
-	} else {
-		exit(1);
-	}
+	if (response.length() < 1 && toupper(response[0]) != 'Y' && toupper(response[0]) != 'N')
+		return -1;
+	response = toupper(response[0]);
+
+	return response == "Y" ? 1 : 0;
+}
+
+void	Config::programExit()
+{
+	system("clear");
+	HEADER();
+	centerText("Thank you for using mkCPP");
+	centerText("See you soon");
+	this->~Config();
+	exit(0);
 }

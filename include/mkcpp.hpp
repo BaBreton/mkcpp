@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <string>
 #include <cstring>
+#include <vector>
+#include <csignal>
 
 using namespace std;
 

@@ -6,6 +6,13 @@
 
 #include "../include/mkcpp.hpp"
 
-int	main() {
-	Config 	test;
+int	main(int argc, char **argv, char **env) {
+	
+	Config 	test(env);
+	
+	(void)argc;
+	(void)argv;
+
+	test.start();
+	return (0);
 }
