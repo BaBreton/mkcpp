@@ -17,9 +17,19 @@ void    Config::displayPersonalIncludesMenu() const {
     cout << "Please type your includes, one by one, and type \033[1;31mEND\033[0m when you're done" << endl;
 }
 
-void    Config::displayInvalidCreationInput() {
+void    Config::displayInvalidCreationInput(int option) const {
     system("clear");
 	(HEADER(), NL());
+    if (option == 1)
+	    cout << "Do you want to create private variable ? [Y/N] "; 
+    else if (option == 2)
+        cout << "Do you want to create one more private variable ? [Y/N] ";
+    else if (option == 3)
+        cout << "Do you need a getter for this variable ? [Y/N] ";
+    else if (option == 4)
+        cout << "Do you need a setter for this variable ? [Y/N] ";
+    else
+        return ;
 }
 
 void    Config::displayInvalidIncludeInput() const {

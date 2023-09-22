@@ -26,7 +26,7 @@ class Config {
 
 		// Display functions
 		void	displayPersonalIncludesMenu() const;
-		void    displayInvalidCreationInput();
+		void    displayInvalidCreationInput(int option) const;
 		void	displayInvalidIncludeInput() const;
 		void	displayInvalidCanonInput() const;
 		void	displayModuleMenu() const;
@@ -47,6 +47,7 @@ class Config {
         void    makeConfigFile();
 
 		// Creation
+		string	privateValues();
 		void	userOptions();
 };
 

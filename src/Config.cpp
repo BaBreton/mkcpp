@@ -133,8 +133,20 @@ int Config::yesNo(int statut) {
 			case 3:
 				displayInvalidCanonInput();
 				goto here;
-			default:
-				break;
+			case 4:
+				displayInvalidCreationInput(1);
+				goto here;
+			case 5:
+				displayInvalidCreationInput(2);
+				goto here;
+			case 6:
+				displayInvalidCreationInput(3);
+				goto here;
+			case 7:
+				displayInvalidCreationInput(4);
+				goto here;
+
+			break;
 		}
 		goto here;
 	}
