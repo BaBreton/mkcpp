@@ -11,6 +11,7 @@ class Config {
 	private:
 		std::string		_header;
 		vector<string>	_includes;
+		vector<string>	_creation;
         char            **_env;
 	
 	public:
@@ -25,6 +26,7 @@ class Config {
 
 		// Display functions
 		void	displayPersonalIncludesMenu() const;
+		void    displayInvalidCreationInput();
 		void	displayInvalidIncludeInput() const;
 		void	displayInvalidCanonInput() const;
 		void	displayModuleMenu() const;

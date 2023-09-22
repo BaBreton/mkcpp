@@ -17,6 +17,11 @@ void    Config::displayPersonalIncludesMenu() const {
     cout << "Please type your includes, one by one, and type \033[1;31mEND\033[0m when you're done" << endl;
 }
 
+void    Config::displayInvalidCreationInput() {
+    system("clear");
+	(HEADER(), NL());
+}
+
 void    Config::displayInvalidIncludeInput() const {
     system("clear");
     HEADER();

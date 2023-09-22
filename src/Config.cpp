@@ -72,7 +72,7 @@ void	Config::navigationMenu() {
 
 	switch (option) {
 		case 1:
-			std::cout << "You chose option 1" << std::endl;
+			userOptions();
 			break;
 		case 2:
 			makeConfigFile();
