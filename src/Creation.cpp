@@ -20,10 +20,10 @@ two:
 	value += inputUser + ";";
 	(system("clear"), HEADER(), NL());
 	cout << "Do you need a getter for this variable ? [Y/N] ";
-	yesNo(6) == 1 ? value += " G" : 0;
+	yesNo(6) == 1 ? value += " G" : value;
 	(system("clear"), HEADER(), NL());
 	cout << "Do you need a setter for this variable ? [Y/N] ";
-	yesNo(7) == 1 ? value += " S" : 0;
+	yesNo(7) == 1 ? value += " S" : value;
 	return value;
 }
 
@@ -48,19 +48,20 @@ ex:
 	_creation.push_back("ex-" + inputUser);
 ob:
 	(system("clear"), HEADER(), NL());
-	cout << "Please type your objects names, one by one, and type \033[1;31mEND\033[0m when you're done" << endl;
+	cout << "Please type your class names, one by one, and type \033[1;31mEND\033[0m when you're done" << endl;
 	while (getline(cin, inputUser) && inputUser != "END") {
 		if (inputUser.empty())
 			goto ob;
 		_creation.push_back("ob-" + inputUser);
+		(system("clear"), HEADER(), NL());
+		cout << "Do you want to create private variable ? [Y/N] ";
+		yesNo(5) == 1 ? moreVars = 1 : moreVars = 0;
+		while (moreVars) {
+    		_creation.push_back(privateValues());
+   			cout << "Do you want to create one more private variable? [Y/N] ";
+    		yesNo(5) == 1 ? moreVars = 1: moreVars = 0;
 	}
-	(system("clear"), HEADER(), NL());
-	cout << "Do you want to create private variable ? [Y/N] ";
-	yesNo(5) == 1 ? moreVars = 1 : moreVars = 0;
-	while (moreVars) {
-    	_creation.push_back(privateValues());
-   		cout << "Do you want to create one more private variable? [Y/N] ";
-    	yesNo(5) == 1 ? moreVars = 1: moreVars = 0;
+	goto ob;
 	}
 	
 	for (const string& str : _creation)
