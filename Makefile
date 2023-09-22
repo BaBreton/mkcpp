@@ -31,7 +31,7 @@ fclean: clean
 	@echo "$(GREEN)Finished target: $@$(NC)"
 
 re: fclean all
-	rm -rf assets/stateFile
+	rm -rf .assets/stateFile
 	@echo "$(GREEN)Finished target: $@$(NC)"
 
 .PHONY: all clean fclean re
