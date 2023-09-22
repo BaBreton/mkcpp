@@ -43,6 +43,9 @@ class Config {
         void	navigationMenu();
         void    moduleMenu();
         void    makeConfigFile();
+
+		// Creation
+		void	userOptions();
 };
 
 #endif
